@@ -20,7 +20,7 @@ final public class XDPopMenuVC: UIViewController {
     
     /// Delegate instance for handling callbacks.
     public weak var delegate: XDPopMenuVCDelegate?
-    
+    public var didSelectBlock: ((Int)->())?
     /// Appearance configuration.
     public var appearance = XDPopMenuAppearance()
     
@@ -616,15 +616,12 @@ extension XDPopMenuVC {
         action.actionSelected?(animated: animated)
         
         if shouldEnableHaptics {
-            // Generate haptics
-            if #available(iOS 10.0, *) {
-                XDHaptic.impact(.medium).generate()
-            }
+            XDHaptic.impact(.medium).generate()
         }
         
         // Notify delegate
         delegate?.popMenuDidSelectItem?(self, at: index)
-        
+        didSelectBlock?(index)
         // Should dismiss or not
         if shouldDismissOnSelection {
             dismiss(animated: true) {

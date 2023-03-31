@@ -26,6 +26,12 @@ final public class XDPopMenuManager: NSObject {
         }
     }
     
+    public var didSelectBlock: ((Int)->())? {
+        didSet {
+            popMenu?.didSelectBlock = didSelectBlock
+        }
+    }
+    
     /// Determines whether to dismiss menu after an action is selected.
     public var popMenuShouldDismissOnSelection: Bool = true
     
